@@ -1,14 +1,24 @@
+import 'dart:math';
+
 import 'package:face_scaner/ui/face_scan/face_scan_bloc.dart';
+import 'package:face_scaner/ui/face_scan/face_scan_components/scan_instructions.dart';
 import 'package:face_scaner/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vector_math/vector_math.dart' show radians;
 
 class FaceScanPage extends StatelessWidget {
   const FaceScanPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final listOfWidgets = <Widget>[];
+
+    for (int i = 0; i < 360 / 5; i++) {
+      listOfWidgets.add(NewWidget(angle: i * 5));
+    }
+
     return BlocProvider<FaceScanBloc>(
       // TODO: changed to getIt
       create: (_) => FaceScanBloc(),
@@ -19,36 +29,30 @@ class FaceScanPage extends StatelessWidget {
               backgroundColor: Colors.black,
               body: Column(
                 children: [
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextButton(
-                          onPressed: () =>
-                              context.read<FaceScanBloc>().cancelScan(),
-                          child: const Text('Cancel'),
-                        ),
-                      )),
+                  const _FaceScanAppBar(),
                   const Spacer(flex: 2),
-                  Container(
-                    height: context.screenWidth() * 2 / 3,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border:
-                            Border.all(color: Colors.greenAccent, width: 2)),
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white10,
-                        shape: BoxShape.circle,
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ...listOfWidgets,
+                      Container(
+                        height: context.screenWidth() * 2 / 3,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: Colors.transparent, width: 2)),
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white10,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   const Spacer(),
-                  const Text(
-                    'some text',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  const Expanded(child: ScanInstructions()),
                   const Spacer(flex: 2),
                   Padding(
                     padding: const EdgeInsets.all(32),
@@ -56,8 +60,9 @@ class FaceScanPage extends StatelessWidget {
                       width: context.screenWidth(),
                       height: 40,
                       child: ElevatedButton(
-                        onPressed: () =>
-                            context.read<FaceScanBloc>().startSecondScan(),
+                        onPressed: () {
+                          context.read<FaceScanBloc>().startSecondScan();
+                        },
                         child: const Text('Continue'),
                       ),
                     ),
@@ -68,6 +73,60 @@ class FaceScanPage extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _FaceScanAppBar extends StatelessWidget {
+  const _FaceScanAppBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FaceScanBloc, FaceScanState>(
+      builder: (BuildContext context, FaceScanState state) {
+        return state.maybeMap(
+            orElse: () => Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      onPressed: () =>
+                          context.read<FaceScanBloc>().cancelScan(),
+                      child: const Text('Cancel'),
+                    ),
+                  ),
+                )),
+            initial: (_) => const SizedBox(height: 50));
+      },
+    );
+  }
+}
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({Key? key, required this.angle}) : super(key: key);
+
+  final double angle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(context.screenWidth() * 1 / 3 * cos(radians(angle)),
+          context.screenWidth() * 1 / 3 * sin(radians(angle))),
+      child: Transform.rotate(
+          angle: radians(angle - 90),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              height: 20,
+              width: 2,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            ),
+          )),
     );
   }
 }
