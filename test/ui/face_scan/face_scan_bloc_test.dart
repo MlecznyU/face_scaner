@@ -13,16 +13,18 @@ void main() {
     build: _build,
     act: (bloc) => bloc.startScan(),
     expect: () => [
-      const FaceScanState.scanning(firstScan: true),
+      FaceScanState.scanning(
+          firstScan: true, containerStates: _getFilledList()),
     ],
   );
 
   blocTest<FaceScanBloc, FaceScanState>(
     'emits FaceScanState.scanning with firstScan value false when finishFirstScan method called on bloc',
     build: _build,
-    act: (bloc) => bloc.startSecondScan(),
+    act: (bloc) => bloc.startScan(firstScan: false),
     expect: () => [
-      const FaceScanState.scanning(firstScan: false),
+      FaceScanState.scanning(
+          firstScan: false, containerStates: _getFilledList()),
     ],
   );
 
@@ -31,9 +33,14 @@ void main() {
     build: _build,
     act: (bloc) => bloc.cancelScan(),
     expect: () => [
-      const FaceScanState.initial(),
+       FaceScanState.initial(containerStates: _getFilledList()),
     ],
   );
 }
 
 FaceScanBloc _build() => FaceScanBloc();
+
+List<AnimatedContainerState> _getFilledList(
+        {AnimatedContainerState containerState =
+            AnimatedContainerState.verticalLineSmall}) =>
+    List.filled(numberOfAnimatedContainers, containerState, growable: true);
