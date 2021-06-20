@@ -16,22 +16,33 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$FaceScanStateTearOff {
   const _$FaceScanStateTearOff();
 
-  _Initial initial() {
-    return const _Initial();
+  Initial initial({required List<AnimatedContainerState> containerStates}) {
+    return Initial(
+      containerStates: containerStates,
+    );
   }
 
-  _Scanning scanning({required bool firstScan}) {
-    return _Scanning(
+  Scanning scanning(
+      {required bool firstScan,
+      required List<AnimatedContainerState> containerStates,
+      double dx = 0,
+      double dy = 0}) {
+    return Scanning(
+      firstScan: firstScan,
+      containerStates: containerStates,
+      dx: dx,
+      dy: dy,
+    );
+  }
+
+  Finished finished({required bool firstScan}) {
+    return Finished(
       firstScan: firstScan,
     );
   }
 
-  _Finished finished() {
-    return const _Finished();
-  }
-
-  _Error error() {
-    return const _Error();
+  Error error() {
+    return const Error();
   }
 }
 
@@ -42,35 +53,40 @@ const $FaceScanState = _$FaceScanStateTearOff();
 mixin _$FaceScanState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(bool firstScan) scanning,
-    required TResult Function() finished,
+    required TResult Function(List<AnimatedContainerState> containerStates)
+        initial,
+    required TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)
+        scanning,
+    required TResult Function(bool firstScan) finished,
     required TResult Function() error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(bool firstScan)? scanning,
-    TResult Function()? finished,
+    TResult Function(List<AnimatedContainerState> containerStates)? initial,
+    TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)?
+        scanning,
+    TResult Function(bool firstScan)? finished,
     TResult Function()? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Finished value) finished,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Scanning value) scanning,
+    required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Finished value)? finished,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Scanning value)? scanning,
+    TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -94,61 +110,93 @@ class _$FaceScanStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$InitialCopyWith<$Res> {
-  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
-      __$InitialCopyWithImpl<$Res>;
+abstract class $InitialCopyWith<$Res> {
+  factory $InitialCopyWith(Initial value, $Res Function(Initial) then) =
+      _$InitialCopyWithImpl<$Res>;
+  $Res call({List<AnimatedContainerState> containerStates});
 }
 
 /// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
-    implements _$InitialCopyWith<$Res> {
-  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
-      : super(_value, (v) => _then(v as _Initial));
+class _$InitialCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
+    implements $InitialCopyWith<$Res> {
+  _$InitialCopyWithImpl(Initial _value, $Res Function(Initial) _then)
+      : super(_value, (v) => _then(v as Initial));
 
   @override
-  _Initial get _value => super._value as _Initial;
+  Initial get _value => super._value as Initial;
+
+  @override
+  $Res call({
+    Object? containerStates = freezed,
+  }) {
+    return _then(Initial(
+      containerStates: containerStates == freezed
+          ? _value.containerStates
+          : containerStates // ignore: cast_nullable_to_non_nullable
+              as List<AnimatedContainerState>,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$Initial implements Initial {
+  const _$Initial({required this.containerStates});
+
+  @override
+  final List<AnimatedContainerState> containerStates;
 
   @override
   String toString() {
-    return 'FaceScanState.initial()';
+    return 'FaceScanState.initial(containerStates: $containerStates)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Initial);
+    return identical(this, other) ||
+        (other is Initial &&
+            (identical(other.containerStates, containerStates) ||
+                const DeepCollectionEquality()
+                    .equals(other.containerStates, containerStates)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(containerStates);
+
+  @JsonKey(ignore: true)
+  @override
+  $InitialCopyWith<Initial> get copyWith =>
+      _$InitialCopyWithImpl<Initial>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(bool firstScan) scanning,
-    required TResult Function() finished,
+    required TResult Function(List<AnimatedContainerState> containerStates)
+        initial,
+    required TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)
+        scanning,
+    required TResult Function(bool firstScan) finished,
     required TResult Function() error,
   }) {
-    return initial();
+    return initial(containerStates);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(bool firstScan)? scanning,
-    TResult Function()? finished,
+    TResult Function(List<AnimatedContainerState> containerStates)? initial,
+    TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)?
+        scanning,
+    TResult Function(bool firstScan)? finished,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial();
+      return initial(containerStates);
     }
     return orElse();
   }
@@ -156,10 +204,10 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Finished value) finished,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Scanning value) scanning,
+    required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return initial(this);
   }
@@ -167,10 +215,10 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Finished value)? finished,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Scanning value)? scanning,
+    TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -180,31 +228,214 @@ class _$_Initial implements _Initial {
   }
 }
 
-abstract class _Initial implements FaceScanState {
-  const factory _Initial() = _$_Initial;
+abstract class Initial implements FaceScanState {
+  const factory Initial(
+      {required List<AnimatedContainerState> containerStates}) = _$Initial;
+
+  List<AnimatedContainerState> get containerStates =>
+      throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $InitialCopyWith<Initial> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ScanningCopyWith<$Res> {
-  factory _$ScanningCopyWith(_Scanning value, $Res Function(_Scanning) then) =
-      __$ScanningCopyWithImpl<$Res>;
+abstract class $ScanningCopyWith<$Res> {
+  factory $ScanningCopyWith(Scanning value, $Res Function(Scanning) then) =
+      _$ScanningCopyWithImpl<$Res>;
+  $Res call(
+      {bool firstScan,
+      List<AnimatedContainerState> containerStates,
+      double dx,
+      double dy});
+}
+
+/// @nodoc
+class _$ScanningCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
+    implements $ScanningCopyWith<$Res> {
+  _$ScanningCopyWithImpl(Scanning _value, $Res Function(Scanning) _then)
+      : super(_value, (v) => _then(v as Scanning));
+
+  @override
+  Scanning get _value => super._value as Scanning;
+
+  @override
+  $Res call({
+    Object? firstScan = freezed,
+    Object? containerStates = freezed,
+    Object? dx = freezed,
+    Object? dy = freezed,
+  }) {
+    return _then(Scanning(
+      firstScan: firstScan == freezed
+          ? _value.firstScan
+          : firstScan // ignore: cast_nullable_to_non_nullable
+              as bool,
+      containerStates: containerStates == freezed
+          ? _value.containerStates
+          : containerStates // ignore: cast_nullable_to_non_nullable
+              as List<AnimatedContainerState>,
+      dx: dx == freezed
+          ? _value.dx
+          : dx // ignore: cast_nullable_to_non_nullable
+              as double,
+      dy: dy == freezed
+          ? _value.dy
+          : dy // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Scanning implements Scanning {
+  const _$Scanning(
+      {required this.firstScan,
+      required this.containerStates,
+      this.dx = 0,
+      this.dy = 0});
+
+  @override
+  final bool firstScan;
+  @override
+  final List<AnimatedContainerState> containerStates;
+  @JsonKey(defaultValue: 0)
+  @override
+  final double dx;
+  @JsonKey(defaultValue: 0)
+  @override
+  final double dy;
+
+  @override
+  String toString() {
+    return 'FaceScanState.scanning(firstScan: $firstScan, containerStates: $containerStates, dx: $dx, dy: $dy)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is Scanning &&
+            (identical(other.firstScan, firstScan) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstScan, firstScan)) &&
+            (identical(other.containerStates, containerStates) ||
+                const DeepCollectionEquality()
+                    .equals(other.containerStates, containerStates)) &&
+            (identical(other.dx, dx) ||
+                const DeepCollectionEquality().equals(other.dx, dx)) &&
+            (identical(other.dy, dy) ||
+                const DeepCollectionEquality().equals(other.dy, dy)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(firstScan) ^
+      const DeepCollectionEquality().hash(containerStates) ^
+      const DeepCollectionEquality().hash(dx) ^
+      const DeepCollectionEquality().hash(dy);
+
+  @JsonKey(ignore: true)
+  @override
+  $ScanningCopyWith<Scanning> get copyWith =>
+      _$ScanningCopyWithImpl<Scanning>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<AnimatedContainerState> containerStates)
+        initial,
+    required TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)
+        scanning,
+    required TResult Function(bool firstScan) finished,
+    required TResult Function() error,
+  }) {
+    return scanning(firstScan, containerStates, dx, dy);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<AnimatedContainerState> containerStates)? initial,
+    TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)?
+        scanning,
+    TResult Function(bool firstScan)? finished,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (scanning != null) {
+      return scanning(firstScan, containerStates, dx, dy);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Scanning value) scanning,
+    required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
+  }) {
+    return scanning(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Scanning value)? scanning,
+    TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (scanning != null) {
+      return scanning(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Scanning implements FaceScanState {
+  const factory Scanning(
+      {required bool firstScan,
+      required List<AnimatedContainerState> containerStates,
+      double dx,
+      double dy}) = _$Scanning;
+
+  bool get firstScan => throw _privateConstructorUsedError;
+  List<AnimatedContainerState> get containerStates =>
+      throw _privateConstructorUsedError;
+  double get dx => throw _privateConstructorUsedError;
+  double get dy => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScanningCopyWith<Scanning> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FinishedCopyWith<$Res> {
+  factory $FinishedCopyWith(Finished value, $Res Function(Finished) then) =
+      _$FinishedCopyWithImpl<$Res>;
   $Res call({bool firstScan});
 }
 
 /// @nodoc
-class __$ScanningCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
-    implements _$ScanningCopyWith<$Res> {
-  __$ScanningCopyWithImpl(_Scanning _value, $Res Function(_Scanning) _then)
-      : super(_value, (v) => _then(v as _Scanning));
+class _$FinishedCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
+    implements $FinishedCopyWith<$Res> {
+  _$FinishedCopyWithImpl(Finished _value, $Res Function(Finished) _then)
+      : super(_value, (v) => _then(v as Finished));
 
   @override
-  _Scanning get _value => super._value as _Scanning;
+  Finished get _value => super._value as Finished;
 
   @override
   $Res call({
     Object? firstScan = freezed,
   }) {
-    return _then(_Scanning(
+    return _then(Finished(
       firstScan: firstScan == freezed
           ? _value.firstScan
           : firstScan // ignore: cast_nullable_to_non_nullable
@@ -215,21 +446,21 @@ class __$ScanningCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Scanning implements _Scanning {
-  const _$_Scanning({required this.firstScan});
+class _$Finished implements Finished {
+  const _$Finished({required this.firstScan});
 
   @override
   final bool firstScan;
 
   @override
   String toString() {
-    return 'FaceScanState.scanning(firstScan: $firstScan)';
+    return 'FaceScanState.finished(firstScan: $firstScan)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Scanning &&
+        (other is Finished &&
             (identical(other.firstScan, firstScan) ||
                 const DeepCollectionEquality()
                     .equals(other.firstScan, firstScan)));
@@ -241,127 +472,36 @@ class _$_Scanning implements _Scanning {
 
   @JsonKey(ignore: true)
   @override
-  _$ScanningCopyWith<_Scanning> get copyWith =>
-      __$ScanningCopyWithImpl<_Scanning>(this, _$identity);
+  $FinishedCopyWith<Finished> get copyWith =>
+      _$FinishedCopyWithImpl<Finished>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(bool firstScan) scanning,
-    required TResult Function() finished,
+    required TResult Function(List<AnimatedContainerState> containerStates)
+        initial,
+    required TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)
+        scanning,
+    required TResult Function(bool firstScan) finished,
     required TResult Function() error,
   }) {
-    return scanning(firstScan);
+    return finished(firstScan);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(bool firstScan)? scanning,
-    TResult Function()? finished,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (scanning != null) {
-      return scanning(firstScan);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Finished value) finished,
-    required TResult Function(_Error value) error,
-  }) {
-    return scanning(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Finished value)? finished,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (scanning != null) {
-      return scanning(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Scanning implements FaceScanState {
-  const factory _Scanning({required bool firstScan}) = _$_Scanning;
-
-  bool get firstScan => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  _$ScanningCopyWith<_Scanning> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$FinishedCopyWith<$Res> {
-  factory _$FinishedCopyWith(_Finished value, $Res Function(_Finished) then) =
-      __$FinishedCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$FinishedCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
-    implements _$FinishedCopyWith<$Res> {
-  __$FinishedCopyWithImpl(_Finished _value, $Res Function(_Finished) _then)
-      : super(_value, (v) => _then(v as _Finished));
-
-  @override
-  _Finished get _value => super._value as _Finished;
-}
-
-/// @nodoc
-
-class _$_Finished implements _Finished {
-  const _$_Finished();
-
-  @override
-  String toString() {
-    return 'FaceScanState.finished()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Finished);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(bool firstScan) scanning,
-    required TResult Function() finished,
-    required TResult Function() error,
-  }) {
-    return finished();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(bool firstScan)? scanning,
-    TResult Function()? finished,
+    TResult Function(List<AnimatedContainerState> containerStates)? initial,
+    TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)?
+        scanning,
+    TResult Function(bool firstScan)? finished,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if (finished != null) {
-      return finished();
+      return finished(firstScan);
     }
     return orElse();
   }
@@ -369,10 +509,10 @@ class _$_Finished implements _Finished {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Finished value) finished,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Scanning value) scanning,
+    required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return finished(this);
   }
@@ -380,10 +520,10 @@ class _$_Finished implements _Finished {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Finished value)? finished,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Scanning value)? scanning,
+    TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (finished != null) {
@@ -393,30 +533,35 @@ class _$_Finished implements _Finished {
   }
 }
 
-abstract class _Finished implements FaceScanState {
-  const factory _Finished() = _$_Finished;
+abstract class Finished implements FaceScanState {
+  const factory Finished({required bool firstScan}) = _$Finished;
+
+  bool get firstScan => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FinishedCopyWith<Finished> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ErrorCopyWith<$Res> {
-  factory _$ErrorCopyWith(_Error value, $Res Function(_Error) then) =
-      __$ErrorCopyWithImpl<$Res>;
+abstract class $ErrorCopyWith<$Res> {
+  factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
+      _$ErrorCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$ErrorCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
-    implements _$ErrorCopyWith<$Res> {
-  __$ErrorCopyWithImpl(_Error _value, $Res Function(_Error) _then)
-      : super(_value, (v) => _then(v as _Error));
+class _$ErrorCopyWithImpl<$Res> extends _$FaceScanStateCopyWithImpl<$Res>
+    implements $ErrorCopyWith<$Res> {
+  _$ErrorCopyWithImpl(Error _value, $Res Function(Error) _then)
+      : super(_value, (v) => _then(v as Error));
 
   @override
-  _Error get _value => super._value as _Error;
+  Error get _value => super._value as Error;
 }
 
 /// @nodoc
 
-class _$_Error implements _Error {
-  const _$_Error();
+class _$Error implements Error {
+  const _$Error();
 
   @override
   String toString() {
@@ -425,7 +570,7 @@ class _$_Error implements _Error {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Error);
+    return identical(this, other) || (other is Error);
   }
 
   @override
@@ -434,9 +579,12 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(bool firstScan) scanning,
-    required TResult Function() finished,
+    required TResult Function(List<AnimatedContainerState> containerStates)
+        initial,
+    required TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)
+        scanning,
+    required TResult Function(bool firstScan) finished,
     required TResult Function() error,
   }) {
     return error();
@@ -445,9 +593,11 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(bool firstScan)? scanning,
-    TResult Function()? finished,
+    TResult Function(List<AnimatedContainerState> containerStates)? initial,
+    TResult Function(bool firstScan,
+            List<AnimatedContainerState> containerStates, double dx, double dy)?
+        scanning,
+    TResult Function(bool firstScan)? finished,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -460,10 +610,10 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Finished value) finished,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Scanning value) scanning,
+    required TResult Function(Finished value) finished,
+    required TResult Function(Error value) error,
   }) {
     return error(this);
   }
@@ -471,10 +621,10 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Finished value)? finished,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Scanning value)? scanning,
+    TResult Function(Finished value)? finished,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -484,6 +634,6 @@ class _$_Error implements _Error {
   }
 }
 
-abstract class _Error implements FaceScanState {
-  const factory _Error() = _$_Error;
+abstract class Error implements FaceScanState {
+  const factory Error() = _$Error;
 }
