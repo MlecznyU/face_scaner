@@ -26,6 +26,7 @@ dev_dependencies:
   freezed: ^0.14.2
   injectable_generator: ^1.4.1
   lint: ^1.5.3
+  mockito: ^5.0.10
 
 
 flutter:
