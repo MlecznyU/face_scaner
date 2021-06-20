@@ -45,23 +45,35 @@ class _FaceScanAppBar extends StatelessWidget {
     return BlocBuilder<FaceScanBloc, FaceScanState>(
       builder: (BuildContext context, FaceScanState state) {
         return state.maybeMap(
-            orElse: () => Align(
-                alignment: Alignment.topLeft,
-                child: SizedBox(
-                  height: 50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextButton(
-                      onPressed: () =>
-                          context.read<FaceScanBloc>().cancelScan(),
-                      child: const Text('Cancel'),
-                    ),
-                  ),
-                )),
-            finished: (_) => const SizedBox(height: 50),
+            orElse: () => const _CancelButton(),
+            finished: (state) {
+              return state.firstScan
+                  ? const _CancelButton()
+                  : const SizedBox(height: 50);
+            },
             initial: (_) => const SizedBox(height: 50));
       },
     );
+  }
+}
+
+class _CancelButton extends StatelessWidget {
+  const _CancelButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+        alignment: Alignment.topLeft,
+        child: SizedBox(
+          height: 50,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextButton(
+              onPressed: () => context.read<FaceScanBloc>().cancelScan(),
+              child: const Text('Cancel'),
+            ),
+          ),
+        ));
   }
 }
 

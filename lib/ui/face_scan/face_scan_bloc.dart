@@ -81,34 +81,44 @@ class FaceScanBloc extends Cubit<FaceScanState> {
   Future<void> updateDragPosition(double dx, double dy) async {
     if (state is Scanning) {
       final currentState = state as Scanning;
-      final corX = -1 * (currentState.dx - dx);
-      final corY = currentState.dy - dy;
-      late double angle;
 
-      if (corY == 0 && corX > 0) {
-        angle = 90;
-      } else if (corY == 0 && corX < 0) {
-        angle = 180;
-      }
-      final degree = degrees(atan(corX / corY));
+      final angle = _findAngle(currentState, dx, dy);
 
-      if (corX >= 0 && corY >= 0) {
-        angle = degree;
-      } else if (corX >= 0 && corY <= 0) {
-        angle = 180 + degree;
-      } else if (corX <= 0 && corY <= 0) {
-        angle = degree + 180;
-      } else {
-        angle = 360 + degree;
-      }
       final updatedList = currentState.containerStates;
-      updatedList[(angle / 5 - 1).round()] =
-          AnimatedContainerState.verticalLaneLong;
+      final index = angle / 5;
+      if (index < numberOfAnimatedContainers - 0.5) {
+        updatedList[index.round()] = AnimatedContainerState.verticalLaneLong;
+      }
       startScan();
       emit(currentState.copyWith.call(containerStates: updatedList));
 
       await _shouldFinishScan();
     }
+  }
+
+  double _findAngle(Scanning currentState, double dx, double dy) {
+    late double angle;
+
+    final corX = -1 * (currentState.dx - dx);
+    final corY = currentState.dy - dy;
+
+    if (corY == 0 && corX > 0) {
+      angle = 90;
+    } else if (corY == 0 && corX < 0) {
+      angle = 180;
+    }
+    final degree = degrees(atan(corX / corY));
+
+    if (corX >= 0 && corY >= 0) {
+      angle = degree;
+    } else if (corX >= 0 && corY <= 0) {
+      angle = 180 + degree;
+    } else if (corX <= 0 && corY <= 0) {
+      angle = degree + 180;
+    } else {
+      angle = 360 + degree;
+    }
+    return angle;
   }
 
   Future<void> _shouldFinishScan() async {
