@@ -1,3 +1,4 @@
+import 'package:face_scaner/config/di/di.dart';
 import 'package:face_scaner/ui/face_scan/face_scan_bloc.dart';
 import 'package:face_scaner/ui/face_scan/face_scan_components/scan_instructions.dart';
 import 'package:face_scaner/ui/face_scan/face_scan_components/scan_view.dart';
@@ -12,8 +13,7 @@ class FaceScanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FaceScanBloc>(
-      // TODO: changed to getIt
-      create: (_) => FaceScanBloc(),
+      create: (_) => inject<FaceScanBloc>(),
       child: Builder(
         builder: (BuildContext context) {
           return SafeArea(

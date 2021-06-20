@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:face_scaner/domain/face_scan/face_scan_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -35,7 +36,9 @@ class FaceScanState with _$FaceScanState {
 }
 
 class FaceScanBloc extends Cubit<FaceScanState> {
-  FaceScanBloc()
+  final FaceScanService _faceScanService;
+
+  FaceScanBloc(this._faceScanService)
       : super(FaceScanState.initial(containerStates: _getFilledList())) {
     init();
   }
@@ -64,13 +67,20 @@ class FaceScanBloc extends Cubit<FaceScanState> {
     });
   }
 
-  void startScan({bool firstScan = true}) {
+  Future<void> startScan({bool firstScan = true}) async {
+    await _faceScanService.startScan();
+
+    _faceScanService.observeFacePosition().listen((event) {
+      // based on Events emit correct state
+    });
+
     emit(FaceScanState.scanning(
         firstScan: firstScan, containerStates: _getFilledList()));
   }
 
-  void cancelScan() {
+  Future<void> cancelScan() async {
     emit(FaceScanState.initial(containerStates: _getFilledList()));
+    await _faceScanService.finishScan();
     init();
   }
 
@@ -89,7 +99,7 @@ class FaceScanBloc extends Cubit<FaceScanState> {
       if (index < numberOfAnimatedContainers - 0.5) {
         updatedList[index.round()] = AnimatedContainerState.verticalLaneLong;
       }
-      startScan();
+      await startScan();
       emit(currentState.copyWith.call(containerStates: updatedList));
 
       await _shouldFinishScan();
@@ -126,6 +136,7 @@ class FaceScanBloc extends Cubit<FaceScanState> {
 
     if (!updatedState.containerStates
         .contains(AnimatedContainerState.verticalLineSmall)) {
+      await _faceScanService.finishScan();
       emit(updatedState.copyWith(
           containerStates:
               _getFilledList(containerState: AnimatedContainerState.dot)));
